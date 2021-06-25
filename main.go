@@ -46,7 +46,7 @@ func uploadFile(c *gin.Context) {
 	file, err := c.FormFile("file")
 	if err != nil {
 		c.Error(err)
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"status":  false,
 			"message": err.Error(),
 		})
@@ -55,7 +55,7 @@ func uploadFile(c *gin.Context) {
 	err = os.MkdirAll("./fileList", os.ModePerm)
 	if err != nil {
 		c.Error(err)
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
 			"message": err.Error(),
 		})
@@ -63,7 +63,7 @@ func uploadFile(c *gin.Context) {
 	}
 	if err := c.SaveUploadedFile(file, "./fileList/"+file.Filename); err != nil {
 		c.Error(err)
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
 			"message": err.Error(),
 		})
@@ -80,7 +80,7 @@ func deleteFile(c *gin.Context) {
 	err := os.Remove(str)
 	if err != nil {
 		c.Error(err)
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"status":  false,
 			"message": err.Error(),
 		})
