@@ -28,7 +28,12 @@ func main() {
 func index(c *gin.Context) {
 	files, err := ioutil.ReadDir("fileList")
 	if err != nil {
-		log.Panicf("failed reading directory: %s", err)
+		c.Error(err)
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{
+			"status":  false,
+			"message": err.Error(),
+		})
+		return
 	}
 	var data []response
 	for _, file := range files {
