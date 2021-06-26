@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-type response struct {
+type fil struct {
 	Name string `json:"file_name"`
 	Size int64  `json:"file_size"`
 }
@@ -35,11 +35,12 @@ func index(c *gin.Context) {
 		})
 		return
 	}
-	var data []response
+	var data []fil
 	for _, file := range files {
-		data = append(data, response{file.Name(), file.Size()})
+		data = append(data, fil{file.Name(), file.Size()})
 	}
 	c.JSON(http.StatusOK, data)
+
 }
 
 func uploadFile(c *gin.Context) {
